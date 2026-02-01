@@ -1,0 +1,512 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* ================= LOGIN PAGE ================= */
+.login-body {
+  background-color:  rgb(31, 47, 37);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 18px;
+  width: 380px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.login-box h3 {
+  color: #9ca3af;   /* lighter gray */
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.tabs button {
+  width: 50%;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  background: #f3f6f4;
+  font-weight: bold;
+  color: #1f2933;   /* DARKER TEXT */
+}
+
+
+.tabs button.active {
+  background: #0f6838;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button {
+  padding: 12px;
+  border-radius: 10px;
+  background: #1a9754;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 100%;
+}
+
+button:hover {
+  background: #126330;
+}
+
+/* ================= STUDENT & GRAPH PAGE ================= */
+.student-body {
+  background-color: rgb(31, 47, 37);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-container {
+  width: 100%;
+  background: #ddd;
+  border-radius: 20px;
+  height: 25px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 70%;   /* you can change dynamically */
+  background: #1a9754;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 25px;
+  color: white;
+  font-weight: bold;
+  transition: width 0.5s ease-in-out;
+}
+
+
+.student-body h2{
+  padding:0px;
+}
+.main-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+/* Cards */
+.card, .stress-card {
+  width: 360px;
+  padding: 25px;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
+}
+
+.subtitle {
+  text-align: center;
+  color: gray;
+  margin-bottom: 15px;
+}
+
+/* Emoji stress selector */
+.emoji-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.emoji-group button {
+  font-size: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.emoji-group button:hover {
+  transform: scale(1.2);
+}
+
+/* Stress bar (FIXED) */
+.bar {
+  width: 100%;
+  height: 22px;
+  background: #ddd;
+  border-radius: 12px;
+  overflow: hidden;   /* IMPORTANT FIX */
+  margin-bottom: 15px;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 12px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  line-height: 22px;   /* SAME as bar height */
+  transition: width 0.4s ease;
+  font-weight: bold;
+}
+
+
+.red {
+  background: #ff6b6b;
+}
+
+.blue {
+  background: #4dabf7;
+}
+
+/* Links */
+.graph-link {
+  display: block;
+  text-align: right;
+  margin: 8px 0 12px;
+  font-size: 14px;
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.graph-link:hover {
+  text-decoration: underline;
+}
+
+/* ================= TEACHER PAGE ================= */
+.teacher-body {
+  background-color: rgba(36, 113, 65, 0.532);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 15px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgb(12, 76, 42);
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+}
+
+.header h2 {
+  color: white;
+  margin: 0 auto;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.filters select {
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #09562b;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.pending {
+  color: red;
+  font-weight: bold;
+}
+
+.done {
+  color: green;
+  font-weight: bold;
+}
+
+/* ================= DARK MODE ================= */
+.dark {
+  background: #111827;
+}
+
+.dark .header,
+.dark .table-container {
+  background: #1f2933;
+  color: white;
+}
+
+.dark th {
+  background: #374151;
+}
+
+.dark td,
+.dark textarea,
+.dark select,
+.dark input {
+  background: #374151;
+  color: white;
+  border: 1px solid #555;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Background */
+.student-body {
+  background-image: url("pic/stu.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Layout */
+.main-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Cards */
+.card, .stress-card {
+  width: 360px;
+  padding: 25px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Text */
+.subtitle {
+  text-align: center;
+  color: gray;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Inputs */
+select, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #2ecc71;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #27ae60;
+}
+
+/* Emoji group */
+.emoji-group {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.emoji-group button {
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.emoji-group button.selected {
+  background: #d1fae5;
+  border-radius: 50%;
+  transform: scale(1.2);
+}
+
+/* Stress bar */
+.bar {
+  width: 40%;
+  height: 22px;
+  background: #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 0cqw;
+  color: white;
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+  transition: width 0.4s ease;
+}
+
+.blue {
+  background: #4dabf7;
+}
+
+/* Links */
+.graph-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #2e7d32;
+  text-decoration: none;
+}
+
+.graph-link:hover {
+  text-decoration: underline;
+}
+
+.bar-fill {
+  width: 0%;   /* NOT 100% */
+}
+.blue {
+  background: #4dabf7;
+
+}
+
+.filter-box {
+  display: flex;
+  flex-wrap: nowrap;   /* forces one line */
+  gap: 10px;
+  padding: 15px;
+  justify-content: center;
+  background: #f2f2f2;
+}
+
+.filter-box select,
+.filter-box input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 150px;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+  margin-right: 8px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 22px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #28a745;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.status-text {
+  font-weight: 600;
+  font-size: 14px;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Teacher Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="teacher-body">
+<div class="header">
+  <h2>Teacher Dashboard</h2>
+</div>
+
+<div class="filters">
+  <select id="filterDept" onchange="applyFilters()">
+    <option value="">All Departments</option>
+    <option>BCA</option>
+    <option>BBA</option>
+    <option>BCom</option>
+    <option>BSC</option>
+    <option>ENGLISH</option>
+    <option>KANNADA</option>
+    <option>HINDI</option>
+  </select>
+
+  <select id="filterYear" onchange="applyFilters()">
+    <option value="">All Years</option>
+    <option>1st Year - Sem 1</option>
+    <option>1st Year - Sem 2</option>
+    <option>2nd Year - Sem 3</option>
+    <option>2nd Year - Sem 4</option>
+    <option>3rd Year - Sem 5</option>
+    <option>3rd Year - Sem 6</option>
+  </select>
+
+  <select id="filterSection" onchange="applyFilters()">
+    <option value="">All Sections</option>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+    <option>D</option>
+  </select>
+</div>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Dept</th>
+<th>Year</th>
+<th>Sec</th>
+<th>Query</th>
+<th>Status</th>
+<th>Action</th>
+<th>Delete</th>
+</tr>
+</thead>
+<tbody id="data"></tbody>
+</table>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDqYGleRg4UtrF2r0aFNoeQpbfveOpHWOs",
+  authDomain: "academic-query-system.firebaseapp.com",
+  projectId: "academic-query-system",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let allQueries = [];
+
+// 🔴 REALTIME LISTENER
+db.collection("queries")
+  .orderBy("timestamp", "desc")
+  .onSnapshot(snapshot => {
+    allQueries = [];
+    snapshot.forEach(doc => {
+      allQueries.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    render(allQueries);
+  });
+
+// 🔵 RENDER TABLE
+function render(list) {
+  const data = document.getElementById("data");
+  data.innerHTML = "";
+
+  list.forEach(q => {
+    data.innerHTML += `
+      <tr>
+        <td>${q.department || "-"}</td>
+        <td>${q.year || "-"}</td>
+        <td>${q.section || "-"}</td>
+        <td>${q.query || "-"}</td>
+        <td class="${q.status === "Action Taken" ? "done" : "pending"}">
+          ${q.status || "Pending"}
+        </td>
+        <td>
+          <label class="switch">
+            <input type="checkbox"
+              ${q.status === "Action Taken" ? "checked" : ""}
+              onchange="toggleStatus('${q.id}', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </td>
+        <td>
+          ${q.status === "Action Taken"
+            ? `<button onclick="del('${q.id}')">Delete</button>`
+            : `Not Allowed`}
+        </td>
+      </tr>
+    `;
+  });
+}
+
+// 🟢 UPDATE STATUS
+function toggleStatus(id, checked) {
+  db.collection("queries").doc(id).update({
+    status: checked ? "Action Taken" : "Pending"
+  });
+}
+
+// 🔴 DELETE QUERY
+function del(id) {
+  if (confirm("Are you sure to delete this query?")) {
+    db.collection("queries").doc(id).delete();
+  }
+}
+
+// 🟡 APPLY FILTERS
+function applyFilters() {
+  const d = document.getElementById("filterDept").value;
+  const y = document.getElementById("filterYear").value;
+  const s = document.getElementById("filterSection").value;
+
+  const filtered = allQueries.filter(q =>
+    (d === "" || q.department === d) &&
+    (y === "" || q.year === y) &&
+    (s === "" || q.section === s)
+  );
+
+  render(filtered);
+}
+</script>
+</body>
+</html>

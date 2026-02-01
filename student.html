@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Student Query</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="student-body">
+
+<div class="main-container">
+  <div class="card">
+
+    <h2 style="text-align:center;">Your response are 100%</h2>
+
+    <h2 style="text-align:center; font-family:'Pacifico', cursive;">
+      *Anonymous*
+    </h2>
+
+    <div class="subtitle">St. Philomena's College</div>
+
+    <label>Department</label>
+    <select id="department">
+      <option>Select Department</option>
+      <option>BCA</option>
+      <option>BBA</option>
+      <option>BCom</option>
+      <option>BSC</option>
+      <option>ENGLISH</option>
+      <option>KANNADA</option>
+      <option>HINDI</option>
+    </select>
+
+    <label>Year & Semester</label>
+    <select id="year">
+      <option>Select Year & Semester</option>
+      <option>1st Year - Sem 1</option>
+      <option>1st Year - Sem 2</option>
+      <option>2nd Year - Sem 3</option>
+      <option>2nd Year - Sem 4</option>
+      <option>3rd Year - Sem 5</option>
+      <option>3rd Year - Sem 6</option>
+    </select>
+
+    <label>Section</label>
+    <select id="section">
+      <option>Select Section</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+      <option>D</option>
+    </select>
+
+    <button type="button" onclick="submitQuery()">Submit
+      <a href="graph.html" class="graph-link"></a>
+    </button>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDqYGleRg4UtrF2r0aFNoeQpbfveOpHWOs",
+  authDomain: "academic-query-system.firebaseapp.com",
+  projectId: "academic-query-system",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function submitQuery() {
+  const department = document.getElementById("department").value;
+  const year = document.getElementById("year").value;
+  const section = document.getElementById("section").value;
+
+  // ✅ store selected values instead of hardcoding
+  localStorage.setItem("department", department);
+  localStorage.setItem("year", year);
+  localStorage.setItem("section", section);
+
+  window.location.replace("graph.html");
+}
+</script>
+
+</body>
+</html>

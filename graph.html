@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Stress Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .bar {
+      width: 100%;
+      background: #ddd;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 25px;
+      margin-bottom: 15px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      color: #fff;
+      text-align: center;
+      line-height: 25px;
+      transition: width 0.8s ease-in-out;
+      font-weight: bold;
+    }
+
+    .emoji-group button {
+      font-size: 24px;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .emoji-group button.selected {
+      border: 2px solid #000;
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body class="student-body">
+
+<div class="main-container">
+  <div class="stress-card">
+    <h3>📊 Stress Dashboard</h3>
+
+    <p>This Week Average Stress</p>
+    <div class="bar">
+      <div class="bar-fill" id="avgStressBar">0%</div>
+    </div>
+
+    <label>Select Your Stress Level</label>
+    <div class="emoji-group">
+      <button onclick="selectStress(20,this)">😟</button>
+      <button onclick="selectStress(40,this)">😐</button>
+      <button onclick="selectStress(60,this)">🙂</button>
+      <button onclick="selectStress(80,this)">😄</button>
+    </div>
+
+    <label>Main Reason for Stress</label>
+    <select id="reason">
+      <option value="">Select reason</option>
+      <option>Exam Preparation</option>
+      <option>Important Topics & Concepts</option>
+      <option>Notes Making</option>
+      <option>Revision & Recall</option>
+      <option>Practical Repetition</option>
+      <option>Teaching Pace</option>
+      <option>Assignments</option>
+    </select>
+
+    <label>Write Your Query</label>
+    <textarea id="studentQuery" placeholder="Type your problem or query here..." rows="4"></textarea>
+
+    <button onclick="submitStress()">Submit</button>
+
+    <a href="weekly-report.html" class="graph-link">📈 View Weekly Report</a>
+    <a href="student.html" class="graph-link">⬅ Back</a>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDqYGleRg4UtrF2r0aFNoeQpbfveOpHWOs",
+  authDomain: "academic-query-system.firebaseapp.com",
+  projectId: "academic-query-system",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let selectedStress = null;
+
+function selectStress(value, btn) {
+  selectedStress = value;
+  document.querySelectorAll(".emoji-group button")
+    .forEach(b => b.classList.remove("selected"));
+  btn.classList.add("selected");
+}
+
+function submitStress() {
+  const reason = document.getElementById("reason").value;
+  const query = document.getElementById("studentQuery").value;
+
+  const department = localStorage.getItem("department");
+  const year = localStorage.getItem("year");
+  const section = localStorage.getItem("section");
+
+  if (!selectedStress || !reason || !query) {
+    alert("Please select stress, reason and query");
+    return;
+  }
+
+  db.collection("queries").add({
+    department,
+    year,
+    section,
+    stressLevel: selectedStress,
+    reason,
+    query,
+    status: "Pending",
+    timestamp: firebase.firestore.Timestamp.now()
+  })
+  .then(() => {
+    alert("Submitted successfully");
+    selectedStress = null;
+    document.getElementById("reason").value = "";
+    document.getElementById("studentQuery").value = "";
+    document.querySelectorAll(".emoji-group button")
+      .forEach(b => b.classList.remove("selected"));
+  });
+}
+
+/* ✅ ADD THIS BELOW submitStress() */
+
+function loadWeeklyAverageLive() {
+  const now = new Date();
+  const weekAgo = new Date();
+  weekAgo.setDate(now.getDate() - 7);
+
+  db.collection("queries")
+    .where("timestamp", ">=", firebase.firestore.Timestamp.fromDate(weekAgo))
+    .onSnapshot(snapshot => {
+
+      let total = 0;
+      let count = 0;
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.stressLevel) {
+          total += Number(data.stressLevel);
+          count++;
+        }
+      });
+
+      let avg = count > 0 ? Math.round(total / count) : 0;
+
+      const bar = document.getElementById("avgStressBar");
+      bar.style.width = avg + "%";
+      bar.innerText = avg + "%";
+
+      if (avg > 75) bar.style.backgroundColor = "green";
+      else if (avg > 60) bar.style.backgroundColor = "blue";
+      else if (avg > 40) bar.style.backgroundColor = "orange";
+      else bar.style.backgroundColor = "red";
+    });
+}
+
+/* ✅ CALL IT */
+loadWeeklyAverageLive();
+
+</script>
+
+
+</body>
+</html>
